@@ -1,0 +1,26 @@
+items = []
+stock = []
+
+def add_item(name, quantity):
+    if len(items) < 5:
+        items.append(name)
+        stock.append(quantity)
+    else:
+        print("Inventory full.")
+
+def update_stock(name, quantity):
+    if name in items:
+        index = items.index(name)
+        stock[index] += quantity
+    else:
+        print("Item not found.")
+
+def display_inventory():
+    print("Inventory:")
+    for i in range(len(items)):
+        print(f"{items[i]}: {stock[i]}")
+
+add_item("Apples", 50)
+add_item("Bananas", 30)
+update_stock("Apples", 20)
+display_inventory()
