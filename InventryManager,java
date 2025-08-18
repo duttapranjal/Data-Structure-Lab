@@ -1,0 +1,124 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Product {
+    String sku;
+    String name;
+    int quantity;
+
+    Product(String sku, String name, int quantity) {
+        this.sku = sku;
+        this.name = name;
+        this.quantity = quantity;
+    }
+}
+
+public class InventoryManager {
+    static ArrayList<Product> inventory = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+
+    // Insert new product
+    public static void insertProduct() {
+        System.out.print("Enter SKU: ");
+        String sku = sc.nextLine();
+
+        // check duplicate SKU
+        for (Product item : inventory) {
+            if (item.sku.equals(sku)) {
+                System.out.println("Product with this SKU is already listed.");
+                return;
+            }
+        }
+
+        System.out.print("Enter Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Quantity: ");
+        int quantity;
+        try {
+            quantity = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid quantity. Please enter a number.");
+            return;
+        }
+
+        Product product = new Product(sku, name, quantity);
+        inventory.add(product);
+        System.out.println("Product added successfully.");
+    }
+
+    // Update product
+    public static void updateProduct() {
+        System.out.print("Enter SKU of the product to update: ");
+        String sku = sc.nextLine();
+
+        for (Product item : inventory) {
+            if (item.sku.equals(sku)) {
+                System.out.println("Current details: Name: " + item.name + ", Quantity: " + item.quantity);
+
+                System.out.print("Enter new name (leave blank to keep current): ");
+                String newName = sc.nextLine();
+                if (!newName.isEmpty()) {
+                    item.name = newName;
+                }
+
+                System.out.print("Enter new quantity (leave blank to keep current): ");
+                String newQuantity = sc.nextLine();
+                if (!newQuantity.isEmpty()) {
+                    try {
+                        item.quantity = Integer.parseInt(newQuantity);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid quantity. Keeping current value.");
+                    }
+                }
+
+                System.out.println("Product updated successfully.");
+                return;
+            }
+        }
+        System.out.println("Product with this SKU not found.");
+    }
+
+    // Display inventory
+    public static void displayInventory() {
+        if (inventory.isEmpty()) {
+            System.out.println("Inventory is empty.");
+            return;
+        }
+        System.out.println("Current Inventory:");
+        for (Product item : inventory) {
+            System.out.println("SKU: " + item.sku + ", Name: " + item.name + ", Quantity: " + item.quantity);
+        }
+    }
+
+    // Main program loop
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\nInventory Stock Manager");
+            System.out.println("1. Insert New Product");
+            System.out.println("2. Display Inventory");
+            System.out.println("3. Update Product Details");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    insertProduct();
+                    break;
+                case "2":
+                    displayInventory();
+                    break;
+                case "3":
+                    updateProduct();
+                    break;
+                case "4":
+                    System.out.println("Exiting the program.");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
