@@ -90,6 +90,35 @@ public class InventoryManager {
             System.out.println("SKU: " + item.sku + ", Name: " + item.name + ", Quantity: " + item.quantity);
         }
     }
+    //Searching the product by SKU
+    public static void searchProduct() {
+        System.out.print("Enter SKU to search: ");
+        String sku = sc.nextLine();
+
+        for (Product item : inventory) {
+            if (item.sku.equals(sku)) {
+                System.out.println("Product found: Name: " + item.name + ", Quantity: " + item.quantity);
+                return;
+            }
+        }
+        System.out.println("Product with this SKU not found.");
+    }
+    //search product by name
+    public static void searchProductByName() {
+        System.out.print("Enter Name to search: ");
+        String name = sc.nextLine();
+
+        boolean found = false;
+        for (Product item : inventory) {
+            if (item.name.equalsIgnoreCase(name)) {
+                System.out.println("Product found: SKU: " + item.sku + ", Quantity: " + item.quantity);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No products found with this name.");
+        }
+    }   
 
     // Main program loop
     public static void main(String[] args) {
@@ -98,7 +127,9 @@ public class InventoryManager {
             System.out.println("1. Insert New Product");
             System.out.println("2. Display Inventory");
             System.out.println("3. Update Product Details");
-            System.out.println("4. Exit");
+            System.out.println("4. Search Product by SKU");
+            System.out.println("5. Search Product by Name");
+            System.out.println("6. Exit");
 
             System.out.print("Enter your choice: ");
             String choice = sc.nextLine();
@@ -114,6 +145,11 @@ public class InventoryManager {
                     updateProduct();
                     break;
                 case "4":
+                    searchProduct();
+                    break;
+                case "5":
+                    searchProductByName();
+                case "6":
                     System.out.println("Exiting the program.");
                     return;
                 default:
